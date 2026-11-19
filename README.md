@@ -142,6 +142,16 @@ chegava ao Docker Hub e ao EKS sem ninguém perceber.
 | antigas: `fastapi==0.109.0`, `uvicorn==0.27.0`, `httpx==0.26.0` | **15 vulnerabilidades em 2 pacotes** (fastapi e starlette): o pipeline para |
 | atuais: `fastapi==0.165.0`, `uvicorn==0.54.0`, `httpx==0.28.1` | **nenhuma**: o pipeline segue |
 
+**Achado real do Trivy (18/11/2026).** A primeira versão da imagem foi **barrada** (exit code 1)
+com 2 vulnerabilidades HIGH que já tinham correção:
+
+| Pacote | CVE | De onde vinha | Correção no `Dockerfile` |
+|---|---|---|---|
+| `zlib1g` 1.3.1-1+b1 | CVE-2026-85091 | Debian da imagem base, ainda sem o patch `deb13u1` | `apt-get upgrade` no estágio base |
+| `setuptools` 70.3.0 | CVE-2025-47273 | embutido no próprio `pip` (`pip/_vendor`) | imagem final sem `pip` (não é usado em produção) |
+
+Depois da correção, o mesmo comando do Trivy passou com **exit code 0**.
+
 ## Docker, Kubernetes e CI/CD
 
 - `Dockerfile`: `python:3.13-slim`, 3 estágios (base, test, final).
