@@ -159,3 +159,8 @@ Depois da correção, o mesmo comando do Trivy passou com **exit code 0**.
   health-check, requests 64Mi/50m e limits 128Mi/200m. Sem Secret: o PTAX não usa chave.
 - `Jenkinsfile`: `Test & Audit` → `Image Scan` → `Build & Push Image` (amd64 + arm64) →
   `Deploy to EKS` (pula se o cluster estiver desligado).
+- Imagem: **`garciapp/exchange`** no Docker Hub (público, para o EKS baixar sem senha). O
+  `k8s.yaml` usa `:latest`; o deploy pelo Jenkins troca para a tag do build.
+- Sem Docker local, a imagem também sai pelo GitHub Actions (`.github/workflows/imagem.yml`), com
+  as mesmas etapas do Jenkinsfile. Ele precisa do secret `DOCKERHUB_TOKEN` no repositório (token
+  do Docker Hub com Read & Write); sem o secret, roda só testes, `pip-audit` e Trivy.

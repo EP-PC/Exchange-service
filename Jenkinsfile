@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         SERVICE = 'exchange'
-        NAME = "DOCKERHUB_USER/${env.SERVICE}"
+        NAME = "garciapp/${env.SERVICE}"
         TRIVY = 'aquasec/trivy:0.76.1'
     }
     stages {
